@@ -1,6 +1,6 @@
 const { Builder } = require('selenium-webdriver');
 
-async function getDriver(browser) {
+async function getDriver(browser = 'chrome') {
   const options = {
     chrome: require('selenium-webdriver/chrome'),
     // edge: require('selenium-webdriver/edge'),
@@ -12,7 +12,7 @@ async function getDriver(browser) {
   switch (browser.toLowerCase()) {
     case 'chrome':
       browserOptions = new options.chrome.Options();
-      browserOptions.addArguments('--disable-infobars', '--headless', '--disable-gpu', '--window-size=1920,1080');
+      // browserOptions.addArguments('--disable-infobars', '--headless', '--disable-gpu', '--window-size=1920,1080');
       break;
 
     // case 'edge':
@@ -22,7 +22,7 @@ async function getDriver(browser) {
     
     case 'firefox':
       browserOptions = new options.firefox.Options();
-      browserOptions.addArguments('--headless');
+      // browserOptions.addArguments('--headless');
       break;
 
     default:
@@ -35,6 +35,10 @@ async function getDriver(browser) {
     .setChromeOptions(browser === 'chrome' ? browserOptions : null) // Applies only for Chrome
     .setFirefoxOptions(browser === 'firefox' ? browserOptions : null) // Applies only for Firefox
     .build();
+
+  if (!driver) {
+    console.error(`Failed to initialize WebDriver for browser: ${browser}`);
+  }  
 
   return driver;
 }
