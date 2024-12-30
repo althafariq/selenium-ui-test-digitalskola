@@ -1,7 +1,9 @@
 # Selenium UI Automation
 
 **DS-QA-Batch 7**
+
 Althaf Ariq M.G.
+
 
 ```bash
 npm install
