@@ -21,8 +21,18 @@ class Header{
   }
 
   async getCartCount() {
-    return await this.driver.findElement(this.cartCount).getText();
-  }
+    try {
+        const cartBadgeElement = await this.driver.findElement(this.cartCount);
+        const cartText = await cartBadgeElement.getText();
+
+        return cartText.trim() === '' ? false : parseInt(cartText, 10);
+    } catch (error) {
+        if (error.name === 'NoSuchElementError') {
+            return false;
+        }
+        throw error;
+    }
+}
 
   async openCart() {
     await this.driver.findElement(this.cartButton).click();
