@@ -12,7 +12,7 @@ class CheckoutPage {
     this.errorMessage = By.className('error-message-container');
   }
 
-  async validateOnCheckout() {
+  async validateOnCheckoutPage() {
     const title = await this.driver.findElement(this.title);
     const firstNameInput = await this.driver.findElement(this.firstNameInput);
     const lastNameInput = await this.driver.findElement(this.lastNameInput);
@@ -49,11 +49,10 @@ class CheckoutPage {
     await continueButton.click();
   }
 
-  async fillInputForm(firstname, lastname, zipcode) {
+  async fillCheckoutForm(firstname, lastname, zipcode) {
     await this.inputFirstName(firstname);
     await this.inputLastName(lastname);
     await this.inputZipCode(zipcode);
-    await this.clickContinueButton();
   }
 
   async clickCancelButton() {
@@ -61,3 +60,5 @@ class CheckoutPage {
     await cancelButton.click();
   }
 }
+
+module.exports = CheckoutPage;

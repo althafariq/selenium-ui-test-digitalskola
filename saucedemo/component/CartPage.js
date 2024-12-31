@@ -32,7 +32,8 @@ class CartPage {
     let items = [];
     for (let item of cartItems) {
       let itemName = await item.findElement(By.className('inventory_item_name')).getText();
-      items.push(itemName);
+      let itemPrice = await item.findElement(By.className('inventory_item_price')).getText();
+      items.push({ name: itemName, price: itemPrice });
     }
     return items;
   }
@@ -41,7 +42,7 @@ class CartPage {
     await this.driver.findElement(this.continueShoppingButton).click();
   }
 
-  async clickCheckout() {
+  async clickCheckoutButton() {
     await this.driver.findElement(this.checkoutButton).click();
   }
 
