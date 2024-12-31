@@ -1,4 +1,5 @@
 const { By } = require('selenium-webdriver');
+const config = require('../configs/test.config')
 
 class LoginPage {
   constructor(driver) {
@@ -10,7 +11,7 @@ class LoginPage {
   }
 
   async navigate() {
-    await this.driver.get('https://www.saucedemo.com');
+    await this.driver.get(config.baseUrl);
   }
 
   async inputUsername(username) {
