@@ -14,4 +14,4 @@ run test with mocha
 mocha saucedemo/test_case/positive.login.js --browser=firefox
 ```
 
-change the browser to any browser you want (default: chrome)
+without arguments, testing will run on chrome browser
