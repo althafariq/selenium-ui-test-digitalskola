@@ -6,7 +6,7 @@ Althaf Ariq M.G.
 
 
 ```bash
-npm install
+npm install --save-dev
 ```
 
 run specific test case with mocha
