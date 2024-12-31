@@ -11,7 +11,5 @@ npm install
 
 run test with mocha
 ```bash
-mocha saucedemo/test_case/positive.login.js --browser=firefox
+mocha saucedemo/test_case/positive.login.js --browser=firefox || chrome
 ```
-
-without arguments, testing will run on chrome browser
