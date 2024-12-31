@@ -1,20 +1,22 @@
 const { Builder } = require('selenium-webdriver');
 const LoginPage = require('../component/LoginPage');
 const DashboardPage = require('../component/DashboardPage');
+const Header = require('../component/Header');
+const config = require('../configs/test.config')
 const CartPage = require('../component/CartPage');
 const assert = require('assert');
 
 describe('User Add to Cart', function() {
-  this.timeout(40000);
+  this.timeout(config.timeout);
   let driver;
 
   before(async function() {
-    driver = await new Builder().forBrowser('chrome').build();
+    driver = await new Builder().forBrowser(config.browser).build();
 
      // login
      const loginPage = new LoginPage(driver);
      await loginPage.navigate();
-     await loginPage.login('standard_user', 'secret_sauce');
+     await loginPage.login(config.username, config.password);
   });
 
   beforeEach(async function() {
@@ -28,9 +30,9 @@ describe('User Add to Cart', function() {
     const dashboardPage = new DashboardPage(driver);
     await dashboardPage.addToCart();
 
-    // Validate cart count
-    const cartPage = new CartPage(driver);
-    const cartCount = await cartPage.getCartCount();
+    // Validate cart count in header
+    const header = new Header(driver);
+    const cartCount = await header.getCartCount();
     assert.strictEqual(cartCount, '1', 'Expected cart count to be 1');
   });
 
@@ -39,9 +41,9 @@ describe('User Add to Cart', function() {
     const dashboardPage = new DashboardPage(driver);
     await dashboardPage.addToCart();
 
-    // Validate cart count
-    const cartPage = new CartPage(driver);
-    const cartCount = await cartPage.getCartCount();
+    // Validate cart count in header
+    const header = new Header(driver);
+    const cartCount = await header.getCartCount();
     assert.strictEqual(cartCount, '2', 'Expected cart count to be 2');
   });
 
@@ -55,21 +57,23 @@ describe('User Add to Cart', function() {
   });
 
   // cart validation after successfull adding 3 items
-  it('Cart count icon show 3 and cart should contain 3 items', async function() {
-    const cartPage = new CartPage(driver);
-    assert.strictEqual(await cartPage.getCartCount(), '3', 'Expected cart count to be 3');
-    await cartPage.openCart();
+  it('Click remove button will remove an item from cart', async function() {
+    const dashboardPage = new DashboardPage(driver);
+    await dashboardPage.clickRemoveButton();
 
-    const cartItems = await cartPage.getCartItems();
-    assert.strictEqual(cartItems.length, 3, 'Expected cart items to be 3');
+    const header = new Header(driver);
+    const cartCount = await header.getCartCount();
+    assert.strictEqual(cartCount, '2', 'Expected cart count to be 2');
   });
 
   it('Validate the name of the items in the cart', async function() {
+    const header = new Header(driver);
+    await header.openCart();
+
     const cartPage = new CartPage(driver);
     const cartItems = await cartPage.getCartItems();
-    assert.strictEqual(cartItems[0], 'Sauce Labs Backpack', 'Expected item name to be Sauce Labs Backpack');
-    assert.strictEqual(cartItems[1], 'Sauce Labs Bike Light', 'Expected item name to be Sauce Labs Bike Light');
-    assert.strictEqual(cartItems[2], 'Sauce Labs Bolt T-Shirt', 'Expected item name to be Sauce Labs Bolt T-Shirt');
+    assert.strictEqual(cartItems[0], 'Sauce Labs Bike Light', 'Expected item name to be Sauce Labs Bike Light');
+    assert.strictEqual(cartItems[1], 'Sauce Labs Bolt T-Shirt', 'Expected item name to be Sauce Labs Bolt T-Shirt');
   });
 
   after(async function() {
