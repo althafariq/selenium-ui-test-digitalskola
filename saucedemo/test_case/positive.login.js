@@ -1,8 +1,9 @@
 const { Builder } = require('selenium-webdriver');
 const LoginPage = require('../component/LoginPage');
 const DashboardPage = require('../component/DashboardPage');
-const config = require('../configs/test.config')
-const { getDriver } = require('../configs/webDriver.config')
+const config = require('../configs/test.config');
+const { getDriver } = require('../configs/webDriver.config');
+const takeScreenshot  = require('../utils/screenshot');
 const assert = require('assert');
 
 describe('User Successful Login', function() {
@@ -17,6 +18,10 @@ describe('User Successful Login', function() {
   it('Should login successfully and validate landed on dashboard', async function() {
     const loginPage = new LoginPage(driver);
     await loginPage.navigate();
+
+    // take screenshot
+    await takeScreenshot(driver, '[positive login] before_login');
+
     await loginPage.login(config.username, config.password);
 
     const dashboardPage = new DashboardPage(driver);
@@ -26,10 +31,13 @@ describe('User Successful Login', function() {
   });
 
   after(async function() {
-    // wait for 5 seconds
+    // take screenshot
+    await takeScreenshot(driver, '[positive login] after_login');
+
+    // wait for 3 seconds
     setTimeout(async () => {
       await driver.quit();
-    }, 5000);
+    }, 3000);
   });
 
 });

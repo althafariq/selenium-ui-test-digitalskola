@@ -4,6 +4,7 @@ const DashboardPage = require('../component/DashboardPage');
 const Header = require('../component/Header');
 const config = require('../configs/test.config')
 const CartPage = require('../component/CartPage');
+const takeScreenshot = require('../utils/screenshot');
 const assert = require('assert');
 
 describe('User Add to Cart', function() {
@@ -26,6 +27,9 @@ describe('User Add to Cart', function() {
 
   // Assertion or validation
   it('Should add 1 item to cart successfully', async function() {
+    // take screenshot
+    await takeScreenshot(driver, '[Add to Cart] before adding item');
+
     // add item to cart
     const dashboardPage = new DashboardPage(driver);
     await dashboardPage.addToCart();
@@ -34,6 +38,9 @@ describe('User Add to Cart', function() {
     const header = new Header(driver);
     const cartCount = await header.getCartCount();
     assert.strictEqual(cartCount, 1, 'Expected cart count to be 1');
+
+    // take screenshot
+    await takeScreenshot(driver, '[Add to Cart] after adding item');
   });
 
   it('Cart Count show 2 items after adding 2 items', async function() {
@@ -45,6 +52,9 @@ describe('User Add to Cart', function() {
     const header = new Header(driver);
     const cartCount = await header.getCartCount();
     assert.strictEqual(cartCount, 2, 'Expected cart count to be 2');
+
+    // take screenshot
+    await takeScreenshot(driver, '[Add to Cart] after adding another item');
   });
 
   it('After adding an item, button should change to Remove', async function() {
@@ -54,6 +64,9 @@ describe('User Add to Cart', function() {
     const removeButton = await dashboardPage.getRemoveButton();
     const buttonText = await removeButton.getText();
     assert.strictEqual(buttonText, 'Remove', 'Expected button text to be Remove');
+
+    // take screenshot
+    await takeScreenshot(driver, '[Add to Cart] Remove button appears');
   });
 
   // cart validation after successfull adding 3 items
@@ -82,6 +95,9 @@ describe('User Add to Cart', function() {
   });
 
   after(async function() {
+    // take screenshot
+    await takeScreenshot(driver, '[Add to Cart] cart shows 2 added items');
+    
     // wait for 3 seconds
     setTimeout(async () => {
       await driver.quit();

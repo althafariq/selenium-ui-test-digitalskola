@@ -1,19 +1,25 @@
 const { Builder } = require('selenium-webdriver');
 const LoginPage = require('../component/LoginPage');
+const config = require('../configs/test.config');
+const { getDriver } = require('../configs/webDriver.config');
+const takeScreenshot  = require('../utils/screenshot');
 const assert = require('assert');
 
 describe('User Login Failed', function() {
-  this.timeout(40000);
+  this.timeout(config.timeout);
   let driver;
 
   before(async function() {
-    driver = await new Builder().forBrowser('chrome').build();
+    driver = await getDriver(config.browser);
   });
 
   // test suite before each test case
   beforeEach(async function() {
     const loginPage = new LoginPage(driver);
     await loginPage.navigate();
+
+    // take screenshot
+    await takeScreenshot(driver, '[negative login] before login');
     await loginPage.login('invalidusername', 'secrinvalidpasswordet_sauce');
   });
 
@@ -25,6 +31,9 @@ describe('User Login Failed', function() {
   });
 
   after(async function() {
+    // take screenshot
+    await takeScreenshot(driver, '[negative login] after login');
+    
     // wait for 3 seconds
     setTimeout(async () => {
       await driver.quit();

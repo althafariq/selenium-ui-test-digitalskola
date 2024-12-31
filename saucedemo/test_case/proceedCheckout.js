@@ -7,6 +7,7 @@ const CheckoutOverviewPage = require('../component/CheckoutOverview');
 const CheckoutCompletedPage = require('../component/CheckoutCompleted');
 const CartPage = require('../component/CartPage');
 const config = require('../configs/test.config');
+const takeScreenshot = require('../utils/screenshot');
 const assert = require('assert');
 
 describe('User Proceed Checkout', function() {
@@ -30,6 +31,8 @@ describe('User Proceed Checkout', function() {
     const header = new Header(driver);
     await header.openCart();
 
+    // take screenshot
+    await takeScreenshot(driver, '[user proceed checkout] cart page');
     // click checkout button
     const cartPage = new CartPage(driver);
     await cartPage.clickCheckoutButton();
@@ -49,11 +52,17 @@ describe('User Proceed Checkout', function() {
     assert.strictEqual(checkout.zipCodeInput, true, 'Expected postal code label to be displayed');
     assert.strictEqual(checkout.continueButton, true, 'Expected continue button to be displayed');
     assert.strictEqual(checkout.cancelButton, true, 'Expected cancel button to be displayed');
+
+    // take screenshot
+    await takeScreenshot(driver, '[user proceed checkout] before input checkout form');
   });
 
   it('Fill in checkout form and click continue', async function() {
     const checkoutPage = new CheckoutPage(driver);
     await checkoutPage.fillCheckoutForm('althaf', 'ariq', '60211');
+
+    // take screenshot
+    await takeScreenshot(driver, '[user proceed checkout] after input checkout form');
     await checkoutPage.clickContinueButton();
   });
 
@@ -63,6 +72,9 @@ describe('User Proceed Checkout', function() {
     assert.strictEqual(checkoutOverview.titleText, 'Checkout: Overview', `Expected checkout title to be 'Checkout: Overview'`);
     assert.strictEqual(checkoutOverview.finishButton, true, 'Expected finish button to be displayed');
     assert.strictEqual(checkoutOverview.cancelButton, true, 'Expected cancel button to be displayed');
+
+    // take screenshot
+    await takeScreenshot(driver, '[user proceed checkout] checkout overview page');
   });
 
   it('Compare cart items and checkout overview items', async function() {
@@ -135,6 +147,9 @@ describe('User Proceed Checkout', function() {
     assert.strictEqual(checkoutCompleted.titleText, 'Checkout: Complete!', `Expected checkout title to be 'Checkout: Complete!'`);
     assert.strictEqual(checkoutCompleted.checkoutComplete, true, 'Expected checkout complete message to be displayed');
     assert.strictEqual(checkoutCompleted.backHomeButton, true, 'Expected back home button to be displayed');
+
+    // take screenshot
+    await takeScreenshot(driver, '[user proceed checkout] checkout completed page');
   });
 
   it('cart count on header should be empty after checkout completed', async function() {
