@@ -33,7 +33,7 @@ describe('User Add to Cart', function() {
     // Validate cart count in header
     const header = new Header(driver);
     const cartCount = await header.getCartCount();
-    assert.strictEqual(cartCount, '1', 'Expected cart count to be 1');
+    assert.strictEqual(cartCount, 1, 'Expected cart count to be 1');
   });
 
   it('Cart Count show 2 items after adding 2 items', async function() {
@@ -44,7 +44,7 @@ describe('User Add to Cart', function() {
     // Validate cart count in header
     const header = new Header(driver);
     const cartCount = await header.getCartCount();
-    assert.strictEqual(cartCount, '2', 'Expected cart count to be 2');
+    assert.strictEqual(cartCount, 2, 'Expected cart count to be 2');
   });
 
   it('After adding an item, button should change to Remove', async function() {
@@ -63,7 +63,7 @@ describe('User Add to Cart', function() {
 
     const header = new Header(driver);
     const cartCount = await header.getCartCount();
-    assert.strictEqual(cartCount, '2', 'Expected cart count to be 2');
+    assert.strictEqual(cartCount, 2, 'Expected cart count to be 2');
   });
 
   it('Validate the name of the items in the cart', async function() {
@@ -72,8 +72,13 @@ describe('User Add to Cart', function() {
 
     const cartPage = new CartPage(driver);
     const cartItems = await cartPage.getCartItems();
-    assert.strictEqual(cartItems[0], 'Sauce Labs Bike Light', 'Expected item name to be Sauce Labs Bike Light');
-    assert.strictEqual(cartItems[1], 'Sauce Labs Bolt T-Shirt', 'Expected item name to be Sauce Labs Bolt T-Shirt');
+    // Validate the name of the items in the cart
+    assert.strictEqual(cartItems[0].name, 'Sauce Labs Bike Light', 'Expected item name to be Sauce Labs Bike Light');
+    assert.strictEqual(cartItems[1].name, 'Sauce Labs Bolt T-Shirt', 'Expected item name to be Sauce Labs Bolt T-Shirt');
+
+    // Validate the price of the items in the cart
+    assert.strictEqual(cartItems[0].price, '$9.99', 'Expected item price to be $9.99');
+    assert.strictEqual(cartItems[1].price, '$15.99', 'Expected item price to be $15.99');
   });
 
   after(async function() {
