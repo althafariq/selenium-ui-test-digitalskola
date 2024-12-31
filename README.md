@@ -9,7 +9,17 @@ Althaf Ariq M.G.
 npm install
 ```
 
-run test with mocha
+run specific test case with mocha
 ```bash
-mocha saucedemo/test_case/positive.login.js --browser=firefox || chrome
+mocha saucedemo/test_case/proceedCheckout.js --browser=firefox || chrome
+```
+
+run all test case using default browser (chrome)
+```bash
+npm run test
+```
+
+run all test case using another browser (e.g. firefox)
+```bash
+npm run test -- --browser=firefox
 ```
