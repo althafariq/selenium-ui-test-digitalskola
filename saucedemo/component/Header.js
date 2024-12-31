@@ -16,7 +16,7 @@ class Header{
     return {
       appLogo: await appLogo.isDisplayed(),
       menuButton: await menuButton.isDisplayed(),
-      const: await cartButton.isDisplayed()
+      cartButton: await cartButton.isDisplayed()
     }
   }
 

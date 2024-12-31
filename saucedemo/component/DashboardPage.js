@@ -28,6 +28,10 @@ class DashboardPage {
     return await this.driver.findElement(this.removeButton);
   }
 
+  async clickRemoveButton() {
+    await this.driver.findElement(this.removeButton).click();
+  }
+
   async openCart() {
     await this.driver.findElement(this.cartButton).click();
   }
